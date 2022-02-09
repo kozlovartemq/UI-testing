@@ -7,6 +7,8 @@ from selenium.webdriver.chrome.service import Service as GoogleService
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
+import pathlib
+from pathlib import Path
 
 set_environment = True  # The quantity limit of the 'set_allure_environment_properties' func calls
                         # if "True": environment.properties file will be created before the first test
@@ -32,7 +34,7 @@ def set_allure_environment_properties(browser_name, allure_dir, driver, status=s
                 driver_version = driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0]
             elif browser_name == "firefox":
                 driver_version = driver.capabilities['moz:geckodriverVersion']
-            with open(f'{allure_dir}\\environment.properties', 'w') as file:
+            with open(f'{allure_dir}{pathlib.os.sep}environment.properties', 'w') as file:  # str(Path(
                 file.write(f'Browser={browser_name.capitalize()}')
                 file.write(f'\nBrowser.Version={browser_version}')
                 file.write(f'\nDriver.Version={driver_version}')  # browser_name will exactly be in IF or ELIF
@@ -65,14 +67,14 @@ def get_firefox_options():
 
 def get_chrome_webdriver():
     options = get_chrome_options()
-    service = GoogleService("./chromedriver.exe")
+    service = GoogleService(str(Path(pathlib.Path.cwd() / 'chromedriver')))
     return service, options                  #  driver = webdriver.Chrome() is forbidden here,
                                              #  as this leads to premature opening of the Chrome
 
 
 def get_firefox_webdriver():
     profile, options = get_firefox_options()
-    service = FirefoxService("./geckodriver.exe")
+    service = FirefoxService(str(Path(pathlib.Path.cwd() / 'geckodriver')))
     return service, options, profile
 
 
@@ -87,7 +89,7 @@ def web_driver_init(request):
         driver = webdriver.Chrome(options=o)
     elif browser_name == "firefox":
         s, o, p = get_firefox_webdriver()
-        driver = webdriver.Firefox(firefox_profile=p, options=o)
+        driver = webdriver.Firefox(service=s, firefox_profile=p, options=o)
     else:
         raise ValueError("Wrong '--browser_name' option. Available: chrome, firefox.")
     if request.cls is not None:
