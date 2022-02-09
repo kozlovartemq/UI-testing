@@ -1,0 +1,66 @@
+
+class HomePageLocators:
+    """A class for Home Page locators"""
+
+    nav_links = "//div[@id='block_top_menu']/ul/li"  # Header Navigating links
+    search_field = "//input[@id='search_query_top']"
+    search_button = "//button[@name='submit_search']"
+    X_results_found = "//span[contains(text(), 'result')]"
+    result_product_containers = "//div[@class='product-container']"
+    add_to_cart_buttons = "//a[@title='Add to cart']"
+    proceed_to_checkout_button = "//a[@title='Proceed to checkout']"
+    delete_item_from_cart_buttons = "//a[@title='Delete']"
+    products_in_cart = "//tbody/tr"
+    cart_is_empty_msg = "//p[contains(text(), 'is empty')]"
+    women_header_button = "//a[@class='sf-with-ul' and text()='Women']"
+    t_shirts_button_in_women_droplist = "//ul[@style='display: none;']/li/a[@title='T-shirts']"
+    proceed_to_checkout_button_in_a_cart = "//span[text()='Proceed to checkout']/parent::*"
+    email_enter = "//input[@id='email']"
+    password_enter = "//input[@id='passwd']"
+    sign_in_button = "//button[@id='SubmitLogin']"
+    proceed_to_checkout_button_in_address = "//button[@name='processAddress']"
+    agree_to_the_terms_of_service_checkbox = "//input[@name='cgv']"
+    proceed_to_checkout_button_in_shipping = "//button[@name='processCarrier']"
+    pay_by_check_button = "//a[@title='Pay by check.']"
+    confirm_order_button = "//span[text()='I confirm my order']/parent::*"
+    account_button = "//a[@class='account']"
+    orders_history_button = "//a[@title='Orders']"
+    details_buttons = "//span[@class='footable-toggle']/following-sibling::a"
+    ordered_product_name = "//tr[@class='item']/td[@class='bold']"
+
+
+class RegisterPageLocators:
+    """A class for Register Page locators"""
+
+    email = "//input[@name='email_create']"
+    create_button = "//button[@name='SubmitCreate']"
+    subtitle = "//div[@class='clearfix']/label"
+    mr_radio = "//input[@id='id_gender1']"
+    mrs_radio = "//input[@id='id_gender2']"
+    first_name = "//input[@id='customer_firstname']"
+    second_name = "//input[@id='customer_lastname']"
+    passwd = "//input[@id='passwd']"
+    select_days = "//select[@id='days']"
+    select_month = "//select[@id='months']"
+    select_years = "//select[@id='years']"
+    address = "//input[@name='address1']"
+    city = "//input[@name='city']"
+    select_state = "//select[@name='id_state']"
+    select_country = "//select[@name='id_country']"
+    mobile_phone = "//input[@name='phone_mobile']"
+    postcode = "//input[@name='postcode']"
+    submit_button = "//button[@name='submitAccount']"
+    my_account_head = "//h1[contains(text(), 'My account')]"
+
+
+class ContactUsPageLocators:
+    """A class for Contact Us Page locators"""
+
+    choose_file_button = "//input[@type='file']"
+    send_button = "//button[@name='submitMessage']"
+    subject_heading_select = "//select[@id='id_contact']"
+    email = "//input[@data-validate='isEmail']"
+    id_order = "//input[@id='id_order']"
+    massage = "//textarea[@id='message']"
+    success_msg = "//p[contains(text(), 'success')]"
+    error_msg = "//li[contains(text(), 'message cannot be blank')]"
