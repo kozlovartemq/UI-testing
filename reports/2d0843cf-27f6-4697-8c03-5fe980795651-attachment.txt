@@ -1,0 +1,4 @@
+
+
+Environment properties for Allure (environment.properties file) was successfully set
+ Generated email: randomemail431@gmail.com

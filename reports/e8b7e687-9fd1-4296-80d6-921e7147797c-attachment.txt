@@ -1,0 +1,4 @@
+
+
+Environment properties for Allure (environment.properties file) was successfully set
+Your message has been successfully sent to our team.

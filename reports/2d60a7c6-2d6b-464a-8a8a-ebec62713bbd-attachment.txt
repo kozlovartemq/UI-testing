@@ -1,0 +1,4 @@
+
+
+Environment properties for Allure (environment.properties file) was successfully set
+{'_driver': <selenium.webdriver.firefox.webdriver.WebDriver (session="5d97a10e-7790-4f5e-85b6-b5fd3fa1ba94")>, '_SeleniumBase__wait': <selenium.webdriver.support.wait.WebDriverWait (session="5d97a10e-7790-4f5e-85b6-b5fd3fa1ba94")>}

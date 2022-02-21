@@ -1,0 +1,4 @@
+
+
+Environment properties for Allure (environment.properties file) was successfully set
+{'_driver': <selenium.webdriver.firefox.webdriver.WebDriver (session="a4072a37-d041-4746-9888-d645ebb9f857")>, '_SeleniumBase__wait': <selenium.webdriver.support.wait.WebDriverWait (session="a4072a37-d041-4746-9888-d645ebb9f857")>, '_HomePage__NAV_LINKS_TEXT': 'WOMEN, DRESSES, T-SHIRTS'}
