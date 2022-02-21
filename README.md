@@ -3,7 +3,8 @@ This is a pet-project of UI-testing automation framework with Python, Selenium, 
 
 Testing website: http://automationpractice.com/
 
-#Files
+# Files
+
 **/base**
 - seleniumbase.py — contains PageObject pattern implementation
 
@@ -37,11 +38,13 @@ It fills the "environment" section in Allure report
 
 **requirements.txt** — requirements file
 
-#Prerequisites
+# Prerequisites
+
 1. Install all requirements:
 
-
-    pip install -r requirements.txt
+```bash
+pip install -r requirements.txt
+```
 
 2. Download and move to the repo directory WebDrivers compatible with your OS and browser's version:
 
@@ -54,11 +57,12 @@ Avoid chrome WebDriver ver. 98 as it may not work as expected.
 
 https://docs.qameta.io/allure/#_installing_a_commandline
 
-#How to run
+# How to run
 
 Quickrun all the tests in the directory:
 
     pytest
+
 Specify launch options in **pytest.ini** file and/or using command line.
 
 Pytest documentation can be found at https://docs.pytest.org/
@@ -67,7 +71,7 @@ Custom options:
 - --browser_name (chrome or firefox) — to choose a browser (default is **_chrome_**)
 - --headless — to launch browsers in 'headless' mode
 
-#Make an Allure report
+# Make an Allure report
 
 If tests were run with --alluredir="allure-results" (by default) option, it is possible to generate an Allure report:
 
@@ -79,7 +83,7 @@ If the website is down, it is possible to generate an Allure report using old te
 
     allure serve reports
 
-#Test Cases
+# Test Cases
 1. Verify that contact us form sends successfully
    1. Go to the Contact Us page;
    2. fill in all the required fields (attach txt file); 
@@ -114,7 +118,7 @@ If the website is down, it is possible to generate an Allure report using old te
    1. Go to the Home page;
    2. Search for some product;
    3. Add a product to the cart;
-   4. Complete the order of the product by going through all the required steps.
+   4. Complete the order of the product by going through all the required steps;
    5. Make sure the product appears in the Order History Page.
 8. Verify header navigation links text
    1. Go to the Home page;
