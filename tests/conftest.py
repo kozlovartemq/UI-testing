@@ -17,63 +17,62 @@ set_environment = True  # The quantity limit of the 'set_allure_environment_prop
 
 def pytest_addoption(parser):
     parser.addoption("--browser_name", action="store", default="chrome")
+    parser.addoption("--headless", action="store_true")  # False if --headless is not provided as CLI option
 
 
-def set_allure_environment_properties(browser_name, allure_dir, driver, status=set_environment):
+def create_allure_environment_properties(browser_name, allure_dir, driver):
     """This function creates environment.properties file for Allure reports once per session."""
-    if status is False:
-        return None, False
+    if allure_dir is None:
+        return "\n\nAllure directory didn't select. To select add option --alluredir='directory_name'\n"
     else:
-        status = False
-        if allure_dir is None:
-            return "\n\nAllure directory didn't select. To select add option --alluredir='directory_name'", status
-        else:
-            browser_version = driver.capabilities['browserVersion']
-            driver_version = None
-            if browser_name == "chrome":
-                driver_version = driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0]
-            elif browser_name == "firefox":
-                driver_version = driver.capabilities['moz:geckodriverVersion']
-            with open(f'{allure_dir}{pathlib.os.sep}environment.properties', 'w') as file:  # str(Path(
-                file.write(f'Browser={browser_name.capitalize()}')
-                file.write(f'\nBrowser.Version={browser_version}')
-                file.write(f'\nDriver.Version={driver_version}')  # browser_name will exactly be in IF or ELIF
-            return "\n\nEnvironment properties for Allure (environment.properties file) was successfully set", status
+        browser_version = driver.capabilities['browserVersion']
+        driver_version = ""
+        if browser_name == "chrome":
+            driver_version = driver.capabilities['chrome']['chromedriverVersion'].split(' ')[0]
+        elif browser_name == "firefox":
+            driver_version = driver.capabilities['moz:geckodriverVersion']
+        with open(f'{allure_dir}{pathlib.os.sep}environment.properties', 'w') as file:
+            file.write(f'Browser={browser_name.capitalize()}')
+            file.write(f'\nBrowser.Version={browser_version}')
+            file.write(f'\nDriver.Version={driver_version}')  # browser_name will exactly be in IF or ELIF
+        return "\n\nEnvironment properties for Allure (environment.properties file) was successfully set\n"
 
 
-def get_chrome_options():
+def get_chrome_options(request):
     options = GoogleOptions()
-    options.add_argument("--start-maximized")
+    if request.config.option.headless:
+        options.add_argument('--headless')
+    else:
+        options.add_argument("--start-maximized")
 
-    """for performance improvement in '--headless' mode"""
-    # options.add_argument('--headless')
+    """for performance improvement:"""
     options.add_argument("--no-proxy-server")
     options.add_argument("--proxy-server='direct://'")
     options.add_argument("--proxy-bypass-list=*")
     return options
 
 
-def get_firefox_options():
+def get_firefox_options(request):
     profile = webdriver.FirefoxProfile()
     # profile.set_preference("general.useragent.override",
     #                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36")
     options = FirefoxOptions()
-    options.add_argument("--start-maximized")
-    # options.add_argument("--width=800")
-    # options.add_argument("--height=600")
-    # options.add_argument('--headless')
+    if request.config.option.headless:
+        options.add_argument('--headless')
+    else:
+        options.add_argument("--start-maximized")
     return profile, options
 
 
-def get_chrome_webdriver():
-    options = get_chrome_options()
+def get_chrome_webdriver(request):
+    options = get_chrome_options(request)
     service = GoogleService(str(Path(pathlib.Path.cwd() / 'chromedriver')))
     return service, options                  #  driver = webdriver.Chrome() is forbidden here,
                                              #  as this leads to premature opening of the Chrome
 
 
-def get_firefox_webdriver():
-    profile, options = get_firefox_options()
+def get_firefox_webdriver(request):
+    profile, options = get_firefox_options(request)
     service = FirefoxService(str(Path(pathlib.Path.cwd() / 'geckodriver')))
     return service, options, profile
 
@@ -85,17 +84,18 @@ def web_driver_init(request):
     allure_dir = request.config.option.allure_report_dir
     global set_environment
     if browser_name == "chrome":
-        s, o = get_chrome_webdriver()
+        s, o = get_chrome_webdriver(request)
         driver = webdriver.Chrome(options=o)
     elif browser_name == "firefox":
-        s, o, p = get_firefox_webdriver()
+        s, o, p = get_firefox_webdriver(request)
         driver = webdriver.Firefox(service=s, firefox_profile=p, options=o)
     else:
         raise ValueError("Wrong '--browser_name' option. Available: chrome, firefox.")
     if request.cls is not None:
         request.cls.driver = driver
     if set_environment is True:
-        allure_environment_status, set_environment = set_allure_environment_properties(browser_name, allure_dir, driver, status=set_environment)
+        allure_environment_status = create_allure_environment_properties(browser_name, allure_dir, driver)
+        set_environment = False
         print(allure_environment_status)
     yield driver
     """Actions after a test"""
