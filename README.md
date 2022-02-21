@@ -79,7 +79,7 @@ If tests were run with --alluredir="allure-results" (by default) option, it is p
 
 Allure documentation can be found at https://docs.qameta.io/allure/
 
-If the website is down, it is possible to generate an Allure report using old test results:
+If the testing website is down, it is possible to generate an Allure report using old test results:
 
     allure serve reports
 
