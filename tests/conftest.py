@@ -10,7 +10,7 @@ from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 import pathlib
 from pathlib import Path
 
-set_environment = True  # The quantity limit of the 'set_allure_environment_properties' func calls
+set_environment = True  # The quantity limit of the 'create_allure_environment_properties' func calls
                         # if "True": environment.properties file will be created before the first test
                         # if "False": NEW environment.properties file will not be created
 
@@ -53,9 +53,7 @@ def get_chrome_options(request):
 
 
 def get_firefox_options(request):
-    profile = webdriver.FirefoxProfile()
-    # profile.set_preference("general.useragent.override",
-    #                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36")
+    profile = FirefoxProfile()
     options = FirefoxOptions()
     if request.config.option.headless:
         options.add_argument('--headless')
@@ -85,7 +83,7 @@ def web_driver_init(request):
     global set_environment
     if browser_name == "chrome":
         s, o = get_chrome_webdriver(request)
-        driver = webdriver.Chrome(options=o)
+        driver = webdriver.Chrome(service=s, options=o)
     elif browser_name == "firefox":
         s, o, p = get_firefox_webdriver(request)
         driver = webdriver.Firefox(service=s, firefox_profile=p, options=o)
